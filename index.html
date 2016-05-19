@@ -75,14 +75,14 @@ windows_amd64
 <div class="highlight highlight-source-yaml"><pre><span class="pl-s"><span class="pl-ent">engine:</span> <span class="pl-s">monica</span></span>
 <span class="pl-s"><span class="pl-ent">reactions:</span></span>
   <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">push</span></span>
-    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Pushing current branch to ${b} on Gitlab</span></span>
+    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Pushing current branch to ${b} on Github</span></span>
     <span class="pl-s"><span class="pl-ent">content:</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git add -A</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git commit -m '${m}'</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git push origin ${b}</span></span>
 
   <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">com-push</span></span>
-    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Precompiling assets and pushing to Gitlab</span></span>
+    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Precompiling assets and pushing to Github</span></span>
     <span class="pl-s"><span class="pl-ent">content:</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rake assets:clobber assets:precompile</span></span>
       <span class="pl-s">- <span class="pl-ent">reaction:</span> <span class="pl-s">push </span></span><span class="pl-c">#Reusing reaction above with name 'push'</span></pre></div>
