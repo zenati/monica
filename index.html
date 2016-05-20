@@ -22,10 +22,10 @@
       <h2>
 <a id="monica" class="anchor" href="#monica" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Monica</h2>
 
-<p><a href="https://www.youtube.com/watch?v=OY1xxhlq4RU">Monica</a> is a <a href="https://golang.org">Go</a> project that helps to avoid repeating commands by defining a structured <code>.monica.yml</code> config file using dynamic arguments generation and validation.</p>
+<p><a href="https://www.youtube.com/watch?v=OY1xxhlq4RU">Monica</a> is a <a href="https://golang.org">Go</a> project that helps avoid repeating commands by defining a structured <code>.monica.yml</code> config file. Monica dynamically generates needed arguments and validates them.</p>
 
 <h3>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
+<a id="installation-for-osxamd64" class="anchor" href="#installation-for-osxamd64" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation for OSX—amd64</h3>
 
 <pre><code>sudo curl -sSo /usr/bin/m https://raw.githubusercontent.com/zenati/monica/master/monica &amp;&amp; sudo chmod 777 /usr/bin/m
 </code></pre>
@@ -61,7 +61,7 @@ windows_amd64
 <h3>
 <a id="example-of-use" class="anchor" href="#example-of-use" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example of use</h3>
 
-<p>Let's say we need to type almost everyday the following commands:</p>
+<p>Let's say we need to type almost everyday the following commands in the same directory:</p>
 
 <pre><code>$ rake assets:clobber assets:precompile
 $ git add -A
@@ -97,8 +97,7 @@ $ rm -rf dist/debian-tmp
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">touch src/var/${a}/file</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rm -rf dist/${a}-tmp</span></span></pre></div>
 
-<p>The config file should be placed at the root of the git repository to be detected and parsed by <code>monica</code>.
-Once done, you can call the following command :</p>
+<p>The config file should be placed inside the directory in which you want to run these commands be detected and parsed by <code>monica</code>. If you use the curl command above to install <code>monica</code>, the executable will be named <code>m</code>. Once done, you can call the following command :</p>
 
 <pre><code>m push -b master -m "commit message"
 </code></pre>
@@ -110,7 +109,8 @@ Once done, you can call the following command :</p>
 
 <p>And here is the output for the <code>push</code> reaction:</p>
 
-<pre><code>monica executing: push
+<pre><code>computer:dir zenati$ m push -b master -m "commit message"
+monica executing: push
 monica  -&gt; rake assets:clobber assets:precompile
 monica  -&gt; git add -A
 monica  -&gt; git commit -m '...'
@@ -121,10 +121,10 @@ monica  -&gt; git push origin master
 <a id="dynamic-arguments" class="anchor" href="#dynamic-arguments" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dynamic arguments</h2>
 
 <p><code>Monica</code> detects the config file and dynamically creates the needed mandatory options.
-Here is an example of <code>monica --help</code> output for the example above:</p>
+Here is an example of <code>m --help</code> output for the example above:</p>
 
-<pre><code>computer:dir zenati$ monica --help
-usage: monica [&lt;flags&gt;] &lt;command&gt; [&lt;args&gt; ...]
+<pre><code>computer:dir zenati$ m --help
+usage: m [&lt;flags&gt;] &lt;command&gt; [&lt;args&gt; ...]
 
 Flags:
   -h, --help     Show context-sensitive help (also try --help-long and --help-man).
