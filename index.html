@@ -22,7 +22,7 @@
       <h2>
 <a id="monica" class="anchor" href="#monica" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Monica</h2>
 
-<p>Monica is a <a href="https://golang.org">Go</a> project that helps developers avoid repeating commands by defining a structured <code>.monica.yml</code> config file using dynamic validated arguments.</p>
+<p>Monica is a <a href="https://golang.org">Go</a> project that helps developers avoid repeating commands by defining a structured <code>.monica.yml</code> config file using dynamic arguments generation and validation.</p>
 
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
@@ -64,11 +64,20 @@ windows_amd64
 <p>Let's say we need to type almost everyday the following commands:</p>
 
 <ul>
-<li>rake assets:clobber assets:precompile</li>
-<li>git add -A</li>
-<li>git commit -m 'A commit message that nobody will care about'</li>
-<li>git push origin master</li>
+<li><code>rake assets:clobber assets:precompile</code></li>
+<li><code>git add -A</code></li>
+<li><code>git commit -m 'Commit message'</code></li>
+<li><code>git push origin master</code></li>
 </ul>
+
+<p>And these too:</p>
+
+<ul>
+<li><code>goxc -d=dist -pv=12.31</code></li>
+<li><code>rm -rf /dist/debian-tmp</code></li>
+</ul>
+
+<p>What we need here, is also to be able to change the <code>branch</code>, <code>commit message</code> and <code>pv</code>.</p>
 
 <p>Here is what the <code>.monica.yml</code> file would look like:</p>
 
@@ -83,7 +92,7 @@ windows_amd64
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git push origin ${b}</span></span>
 
   <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">compile</span></span>
-    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Compiling Goxc for all plateforms and cleaning files</span></span>
+    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Compiling Goxc for all plateforms upon release</span></span>
     <span class="pl-s"><span class="pl-ent">content:</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">goxc -d=dist -pv=${pv}</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rm -rf /dist/debian-tmp</span></span></pre></div>
