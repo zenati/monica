@@ -35,11 +35,17 @@ type Reaction struct {
 	Arguments []ReactionArgument
 }
 
+/*
+  ReactionArgument
+*/
 type ReactionArgument struct {
 	Name string
 	Flag *string
 }
 
+/*
+  ConfigArguments
+*/
 type ConfigArguments struct {
 	Name string
 	Arguments []string
@@ -80,7 +86,7 @@ func unmarshalConfig() Config {
 	content, err := ioutil.ReadFile(".monica.yml")
 
 	if err != nil {
-		text("Error opening .monica.yml file", color.FgRed)
+		text("File .monica.yml not detected.", color.FgRed)
 		os.Exit(0)
 	}
 
@@ -116,6 +122,9 @@ func processConfig(config *Config) {
 	}
 }
 
+/*
+  extractArguments
+*/
 func extractArguments(reactionCommands *[]ReactionCommand) []string {
 	var arguments []string
 
@@ -133,6 +142,9 @@ func extractArguments(reactionCommands *[]ReactionCommand) []string {
 	return arguments
 }
 
+/*
+  appendIfMissing
+*/
 func appendIfMissing(data []string, i string) []string {
   for _, element := range data {
     if element == i {
@@ -143,6 +155,9 @@ func appendIfMissing(data []string, i string) []string {
   return append(data, i)
 }
 
+/*
+  processReactions
+*/
 func processReactions(config *Config, reaction *string) {
 	for index := 0; index < len(config.Reactions); index++ {
 		if *reaction == config.Reactions[index].Name {
@@ -151,6 +166,10 @@ func processReactions(config *Config, reaction *string) {
 	}
 }
 
+/*
+  processReaction
+  Takes a Reaction as a parameter
+*/
 func processReaction(reaction *Reaction) {
 	text(fmt.Sprintf("executing: %s", reaction.Name), color.FgGreen)
 
@@ -161,8 +180,7 @@ func processReaction(reaction *Reaction) {
 
 /*
   processCommand
-  Takes an ActionContent as a parameter and handles the execution
-  of reaction depending of it's type.
+  Takes a Reaction as a parameter
 */
 func processCommand(reaction *Reaction, index int) {
 	command := reaction.Content[index].Command
@@ -201,10 +219,6 @@ func executeCommand(command string, args ...string) {
 		text(stderr.String(), color.FgRed)
 		os.Exit(0)
 	}
-
-	// if out.String() != "" {
-	// 	text(strings.Join(data, "\n"), color.FgGreen)
-	// }
 }
 
 /*
