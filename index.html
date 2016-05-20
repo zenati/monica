@@ -103,9 +103,18 @@ Once done, you can call the following command :</p>
 <pre><code>m push -b master -m "commit message"
 </code></pre>
 
-<p>or to use the Goxc example with <code>16.32</code> as <code>pv</code>:</p>
+<p>Or to use the Goxc example with <code>16.32</code> as <code>pv</code>:</p>
 
 <pre><code>m c -pv 16.32
+</code></pre>
+
+<p>And here is the output:</p>
+
+<pre><code>monica executing: push
+monica  -&gt; rake assets:clobber assets:precompile
+monica  -&gt; git add -A
+monica  -&gt; git commit -m '...'
+monica  -&gt; git push origin master
 </code></pre>
 
 <h2>
