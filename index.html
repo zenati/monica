@@ -22,7 +22,7 @@
       <h2>
 <a id="monica" class="anchor" href="#monica" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Monica</h2>
 
-<p>Monica is a <a href="https://golang.org">Go</a> project that helps developers avoid repeating commands by defining a structured <code>.monica.yml</code> config file.</p>
+<p>Monica is a <a href="https://golang.org">Go</a> project that helps developers avoid repeating commands by defining a structured <code>.monica.yml</code> config file using dynamic validated arguments.</p>
 
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
@@ -75,26 +75,53 @@ windows_amd64
 <div class="highlight highlight-source-yaml"><pre><span class="pl-s"><span class="pl-ent">engine:</span> <span class="pl-s">monica</span></span>
 <span class="pl-s"><span class="pl-ent">reactions:</span></span>
   <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">push</span></span>
-    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Pushing current branch to ${b} on Github</span></span>
+    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Pushing current branch to Github</span></span>
     <span class="pl-s"><span class="pl-ent">content:</span></span>
+      <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rake assets:clobber assets:precompile</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git add -A</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git commit -m '${m}'</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git push origin ${b}</span></span>
 
-  <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">com-push</span></span>
-    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Precompiling assets and pushing to Github</span></span>
+  <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">compile</span></span>
+    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Compiling Goxc for all plateforms and cleaning files</span></span>
     <span class="pl-s"><span class="pl-ent">content:</span></span>
-      <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rake assets:clobber assets:precompile</span></span>
-      <span class="pl-s">- <span class="pl-ent">reaction:</span> <span class="pl-s">push </span></span><span class="pl-c">#Reusing reaction above with name 'push'</span></pre></div>
+      <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">goxc -d=dist -pv=${pv}</span></span>
+      <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rm -rf /dist/debian-tmp</span></span></pre></div>
 
-<p>The config file should be placed at the root of the git repository to be detected and parsed by <code>monica</code>. Once done, you can call the following command :</p>
+<p>The config file should be placed at the root of the git repository to be detected and parsed by <code>monica</code>.
+Once done, you can call the following command :</p>
 
 <pre><code>monica push -b master -m "commit message"
 </code></pre>
 
-<p>or to precompile and push using commit message with staging branch:</p>
+<p>or to use the Goxc example with <code>16.32</code> as <code>pv</code>:</p>
 
-<pre><code>monica com-push -b staging -m 'commit message'
+<pre><code>monica compile -pv 16.32
+</code></pre>
+
+<h2>
+<a id="dynamic-arguments" class="anchor" href="#dynamic-arguments" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dynamic arguments</h2>
+
+<p><code>Monica</code> detects the config file and dynamically creates the needed mandatory options.
+Here is an example of <code>monica --help</code> output for the example above:</p>
+
+<pre><code>computer:dir zenati$ monica --help
+usage: monica [&lt;flags&gt;] &lt;command&gt; [&lt;args&gt; ...]
+
+Flags:
+  -h, --help     Show context-sensitive help (also try --help-long and --help-man).
+      --debug    Enable debug mode.
+      --version  Show application version.
+
+Commands:
+  help [&lt;command&gt;...]
+    Show help.
+
+  push --m=M --b=B
+    Pushing current branch to Github
+
+  compile --pv=PV
+    Compiling Goxc for all plateforms and cleaning files
 </code></pre>
 
 <h2>
