@@ -72,7 +72,7 @@ reactions:
       - command: rm -rf dist/${a}-tmp
 ```
 
-The config file should be placed inside the directory in which you want to run these commands be detected and parsed by `monica`. If you use the curl command above to install `monica`, the executable will be named `m`. Once done, you can call the following command :
+The config file should be placed inside the directory in which you want to run these commands to be detected and parsed by `monica`. If you use the curl command above to install `monica`, the executable will be named `m`. Once done, you can call the following command :
 
 ```
 m push -b master -m "commit message"
