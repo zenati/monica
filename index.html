@@ -27,7 +27,7 @@
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
 
-<pre><code>sudo curl -sSo /usr/bin/monica https://raw.githubusercontent.com/zenati/monica/master/monica &amp;&amp; sudo chmod 777 /usr/bin/monica
+<pre><code>sudo curl -sSo /usr/bin/m https://raw.githubusercontent.com/zenati/monica/master/monica &amp;&amp; sudo chmod 777 /usr/bin/m
 </code></pre>
 
 <h3>
@@ -91,7 +91,7 @@ windows_amd64
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git commit -m '${m}'</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git push origin ${b}</span></span>
 
-  <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">compile</span></span>
+  <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">c </span></span><span class="pl-c">#short for compile</span>
     <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Compiling Goxc for all plateforms upon release</span></span>
     <span class="pl-s"><span class="pl-ent">content:</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">goxc -d=dist -pv=${pv}</span></span>
@@ -100,12 +100,12 @@ windows_amd64
 <p>The config file should be placed at the root of the git repository to be detected and parsed by <code>monica</code>.
 Once done, you can call the following command :</p>
 
-<pre><code>monica push -b master -m "commit message"
+<pre><code>m push -b master -m "commit message"
 </code></pre>
 
 <p>or to use the Goxc example with <code>16.32</code> as <code>pv</code>:</p>
 
-<pre><code>monica compile -pv 16.32
+<pre><code>m compile -pv 16.32
 </code></pre>
 
 <h2>
