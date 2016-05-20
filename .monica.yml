@@ -1,0 +1,8 @@
+engine: monica
+reactions:
+  - name: p
+    desc: Pushing current branch to Github
+    content:
+      - command: git add -A
+      - command: git commit -m "${m}"
+      - command: git push origin ${b}
