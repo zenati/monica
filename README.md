@@ -1,5 +1,5 @@
 ## Monica
-[Monica](https://www.youtube.com/watch?v=IHMUGMt2P6Y) is a [Go](https://golang.org) project that helps to avoid repeating commands by defining a structured `.monica.yml` config file using dynamic arguments generation and validation.
+[Monica](https://www.youtube.com/watch?v=OY1xxhlq4RU) is a [Go](https://golang.org) project that helps to avoid repeating commands by defining a structured `.monica.yml` config file using dynamic arguments generation and validation.
 
 ### Installation
 ```
