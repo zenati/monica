@@ -1,5 +1,5 @@
 ## Monica
-Monica is a [Go](https://golang.org) project that helps developers avoid repeating commands by defining a structured `.monica.yml` config file using dynamic arguments generation and validation.
+[Monica](https://www.youtube.com/watch?v=IHMUGMt2P6Y) is a [Go](https://golang.org) project that helps to avoid repeating commands by defining a structured `.monica.yml` config file using dynamic arguments generation and validation.
 
 ### Installation
 ```
@@ -34,18 +34,24 @@ windows_amd64
 
 ### Example of use
 Let's say we need to type almost everyday the following commands:
-- `rake assets:clobber assets:precompile`
-- `git add -A`
-- `git commit -m 'Commit message'`
-- `git push origin master`
+```
+$ rake assets:clobber assets:precompile
+$ git add -A
+$ git commit -m 'Commit message'
+$ git push origin master
+```
 
 And these too:
-- `goxc -d=dist -pv=12.31`
-- `rm -rf /dist/debian-tmp`
 
-What we need here, is also to be able to change the `branch`, `commit message` and `pv`.
+```
+$ goxc -d=dist -pv=12.31
+$ touch src/var/debian/file
+$ rm -rf dist/debian-tmp
+```
 
-Here is what the `.monica.yml` file would look like:
+What we also need here is to be able to change the `branch`, `commit message`, `pv` and `debian` using command line arguments.
+
+Here is what defining `reactions` in the `.monica.yml` file would look like:
 
 ```yaml
 engine: monica
@@ -59,10 +65,11 @@ reactions:
       - command: git push origin ${b}
 
   - name: c #short for compile
-    desc: Compiling Goxc for all plateforms upon release
+    desc: Compiling latest version for all plateforms
     content:
       - command: goxc -d=dist -pv=${pv}
-      - command: rm -rf /dist/debian-tmp
+      - command: touch src/var/${a}/file
+      - command: rm -rf dist/${a}-tmp
 ```
 
 The config file should be placed at the root of the git repository to be detected and parsed by `monica`.
@@ -72,13 +79,13 @@ Once done, you can call the following command :
 m push -b master -m "commit message"
 ```
 
-Or to use the Goxc example with `16.32` as `pv`:
+Or to use the Goxc example with `pv=16.32` and `a=debian`:
 
 ```
-m c -pv 16.32
+m c -pv 16.32 -a debian
 ```
 
-And here is the output:
+And here is the output for the `push` reaction:
 ```
 monica executing: push
 monica 	-> rake assets:clobber assets:precompile
@@ -106,8 +113,8 @@ Commands:
   push --m=M --b=B
     Pushing current branch to Github
 
-  c --pv=PV
-    Compiling Goxc for all plateforms and cleaning files
+  c --pv=PV --a=A
+    Compiling latest version for all plateforms
 ```
 
 ## License
