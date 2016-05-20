@@ -1,7 +1,7 @@
 ## Monica
-[Monica](https://www.youtube.com/watch?v=OY1xxhlq4RU) is a [Go](https://golang.org) project that helps to avoid repeating commands by defining a structured `.monica.yml` config file using dynamic arguments generation and validation.
+[Monica](https://www.youtube.com/watch?v=OY1xxhlq4RU) is a [Go](https://golang.org) project that helps avoid repeating commands by defining a structured `.monica.yml` config file. Monica dynamically generates needed arguments and validates them.
 
-### Installation
+### Installation for OSX—amd64
 ```
 sudo curl -sSo /usr/bin/m https://raw.githubusercontent.com/zenati/monica/master/monica && sudo chmod 777 /usr/bin/m
 ```
@@ -33,7 +33,7 @@ windows_amd64
 ```
 
 ### Example of use
-Let's say we need to type almost everyday the following commands:
+Let's say we need to type almost everyday the following commands in the same directory:
 ```
 $ rake assets:clobber assets:precompile
 $ git add -A
@@ -72,8 +72,7 @@ reactions:
       - command: rm -rf dist/${a}-tmp
 ```
 
-The config file should be placed at the root of the git repository to be detected and parsed by `monica`.
-Once done, you can call the following command :
+The config file should be placed inside the directory in which you want to run these commands be detected and parsed by `monica`. If you use the curl command above to install `monica`, the executable will be named `m`. Once done, you can call the following command :
 
 ```
 m push -b master -m "commit message"
@@ -87,6 +86,7 @@ m c -pv 16.32 -a debian
 
 And here is the output for the `push` reaction:
 ```
+computer:dir zenati$ m push -b master -m "commit message"
 monica executing: push
 monica 	-> rake assets:clobber assets:precompile
 monica 	-> git add -A
@@ -96,10 +96,10 @@ monica 	-> git push origin master
 
 ## Dynamic arguments
 `Monica` detects the config file and dynamically creates the needed mandatory options.
-Here is an example of `monica --help` output for the example above:
+Here is an example of `m --help` output for the example above:
 ```
-computer:dir zenati$ monica --help
-usage: monica [<flags>] <command> [<args> ...]
+computer:dir zenati$ m --help
+usage: m [<flags>] <command> [<args> ...]
 
 Flags:
   -h, --help     Show context-sensitive help (also try --help-long and --help-man).
