@@ -106,7 +106,7 @@ Commands:
   push --m=M --b=B
     Pushing current branch to Github
 
-  compile --pv=PV
+  c --pv=PV
     Compiling Goxc for all plateforms and cleaning files
 ```
 
