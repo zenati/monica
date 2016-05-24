@@ -51,18 +51,21 @@ $ rm -rf dist/debian-tmp
 
 What we also need here is to be able to change the `branch`, `commit message`, `pv` and `debian` using command line arguments.
 
-Here is what defining `reactions` in the `.monica.yml` file would look like:
+Here is what defining `actions` in the `.monica.yml` file would look like:
 
 ```yaml
-engine: monica
-reactions:
+actions:
   - name: push
     desc: Pushing current branch to Github
     content:
       - command: rake assets:clobber assets:precompile
       - command: git add -A
       - command: git commit -m '${m}'
-      - command: git push origin ${b}
+      - command: git push ${r} ${b}
+    default:
+      - m: no-commit-message
+      - r: origin
+      - b: master
 
   - name: c #short for compile
     desc: Compiling latest version for all plateforms
@@ -70,6 +73,8 @@ reactions:
       - command: goxc -d=dist -pv=${pv}
       - command: touch src/var/${a}/file
       - command: rm -rf dist/${a}-tmp
+    default:
+      - a: debian
 ```
 
 The config file should be placed inside the directory in which you want to run these commands to be detected and parsed by `monica`. If you use the curl command above to install `monica`, the executable will be named `m`. Once done, you can call the following command :
