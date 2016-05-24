@@ -3,7 +3,7 @@
 
 ### Installation for OSX—amd64
 ```
-sudo curl -sSo /usr/bin/m https://raw.githubusercontent.com/zenati/monica/master/monica && sudo chmod 777 /usr/bin/m
+sudo curl -sSo /usr/bin/m https://raw.githubusercontent.com/zenati/monica/master/main && sudo chmod 777 /usr/bin/m
 ```
 
 ### Manual download
