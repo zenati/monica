@@ -58,7 +58,7 @@ type ConfigArguments struct {
   path and a value.
 */
 type ActionContent struct {
-	Action string
+	Action  string
 	Command string
 }
 
@@ -107,7 +107,7 @@ func processConfig(config *Config) {
 	for i := 0; i < len(config.Actions); i++ {
 		var cmdFlag *string
 
-		action   := &config.Actions[i]
+		action := &config.Actions[i]
 		cmdFlags := kingpin.Command(action.Name, action.Desc)
 
 		argsList := extractArguments(&action.Content)

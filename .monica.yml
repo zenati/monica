@@ -10,7 +10,7 @@ actions:
       - r: origin
       - b: master
 
-  - name: compile # Default `pv` value is not set, `pv` is then mandatory
+  - name: compile
     desc: Compiling latest version for all plateforms
     content:
       - command: goxc -d=${dist} -pv=${pv}
