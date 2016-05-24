@@ -58,6 +58,7 @@ type ConfigArguments struct {
   path and a value.
 */
 type ActionContent struct {
+	Action string
 	Command string
 }
 
@@ -104,15 +105,15 @@ func unmarshalConfig() Config {
 */
 func processConfig(config *Config) {
 	for i := 0; i < len(config.Actions); i++ {
-		action := &config.Actions[i]
+		var cmdFlag *string
+
+		action   := &config.Actions[i]
 		cmdFlags := kingpin.Command(action.Name, action.Desc)
 
 		argsList := extractArguments(&action.Content)
 		defsList := extractDefaults(&action.Default)
 
 		for j := 0; j < len(argsList); j++ {
-			var cmdFlag *string
-
 			if defs, exists := defsList[argsList[j]]; exists {
 				cmdFlag = cmdFlags.Flag(argsList[j], "").Default(defs).String()
 			} else {
