@@ -263,8 +263,8 @@ func Map(vs []string, f func(string, int) string) []string {
   Displays a prefix to all engine related messages
 */
 func prefix() string {
-	// return fmt.Sprintf(os.Args[0])
-	return fmt.Sprintf("monica")
+	return fmt.Sprintf(os.Args[0])
+	// return fmt.Sprintf("monica")
 }
 
 /*
