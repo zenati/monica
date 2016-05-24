@@ -1,44 +1,44 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/fatih/color"
 	"gopkg.in/alecthomas/kingpin.v2"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
-	"regexp"
-	"bytes"
 	"os/exec"
+	"regexp"
 	"strings"
 )
 
 /*
   Config
   Structure mirroring the format of a valid .monica.yml file.
-  Consists of an engine name, associated version and an array of reactions.
+  Consists of an array of actions.
 */
 type Config struct {
-	Engine string
-	Reactions []Reaction
+	Actions []Action
 }
 
 /*
-  Reaction
-  Structure mirroring the format of a valid reaction if a config file.
-  Consists of a name and an array of reaction commands.
+  Action
+  Structure mirroring the format of a valid action if a config file.
+  Consists of a name and an array of action commands.
 */
-type Reaction struct {
-	Name string
-	Desc string
-	Content []ReactionCommand
-	Arguments []ReactionArgument
+type Action struct {
+	Name      string
+	Desc      string
+	Content   []ActionContent
+	Default   []map[string]string
+	Arguments []ActionArgument
 }
 
 /*
-  ReactionArgument
+  ActionArgument
 */
-type ReactionArgument struct {
+type ActionArgument struct {
 	Name string
 	Flag *string
 }
@@ -47,19 +47,18 @@ type ReactionArgument struct {
   ConfigArguments
 */
 type ConfigArguments struct {
-	Name string
+	Name      string
 	Arguments []string
 }
 
 /*
-  ReactionCommand
+  ActionContent
   Structure mirroring the format of a valid command if a config file.
   Consists of a type, path, command, source, destination, variable,
   path and a value.
 */
-type ReactionCommand struct {
+type ActionContent struct {
 	Command string
-	ReactionName string `yaml:"reaction"`
 }
 
 func main() {
@@ -70,10 +69,9 @@ func main() {
 	processConfig(&config)
 	kingpin.Version("0.0.1")
 
-	chosenReaction := kingpin.Parse()
-	processReactions(&config, &chosenReaction)
+	chosenAction := kingpin.Parse()
+	processActions(&config, &chosenAction)
 }
-
 
 /*
   unmarshalConfig
@@ -101,35 +99,58 @@ func unmarshalConfig() Config {
 /*
   processConfig
   Takes a Config pointer in argument and loops through the list
-  of reactions and commands, executing one after another in a
+  of actions and commands, executing one after another in a
   thread safe executeCommand function.
 */
 func processConfig(config *Config) {
-	for i := 0; i < len(config.Reactions); i++ {
-		reaction := &config.Reactions[i]
-		argsList := extractArguments(&reaction.Content)
-		cmdFlags := kingpin.Command(reaction.Name, reaction.Desc)
+	for i := 0; i < len(config.Actions); i++ {
+		action := &config.Actions[i]
+		cmdFlags := kingpin.Command(action.Name, action.Desc)
+
+		argsList := extractArguments(&action.Content)
+		defsList := extractDefaults(&action.Default)
 
 		for j := 0; j < len(argsList); j++ {
-			cmdFlag := cmdFlags.Flag(argsList[j], "").Short(argsList[j][0]).Required().String()
+			var cmdFlag *string
 
-			argument := ReactionArgument{}
+			if defs, exists := defsList[argsList[j]]; exists {
+				cmdFlag = cmdFlags.Flag(argsList[j], "").Default(defs).String()
+			} else {
+				cmdFlag = cmdFlags.Flag(argsList[j], "").Required().String()
+			}
+
+			argument := ActionArgument{}
 			argument.Name = argsList[j]
 			argument.Flag = cmdFlag
 
-			reaction.Arguments = append(reaction.Arguments, argument)
+			action.Arguments = append(action.Arguments, argument)
 		}
 	}
 }
 
 /*
+	extractDefaults
+*/
+func extractDefaults(actionDefault *[]map[string]string) map[string]string {
+	defaults := map[string]string{}
+
+	for _, mapData := range *actionDefault {
+		for key, value := range mapData {
+			defaults[key] = value
+		}
+	}
+
+	return defaults
+}
+
+/*
   extractArguments
 */
-func extractArguments(reactionCommands *[]ReactionCommand) []string {
+func extractArguments(actionContent *[]ActionContent) []string {
 	var arguments []string
 
-	for index := 0; index < len(*reactionCommands); index++ {
-		command := (*reactionCommands)[index].Command
+	for index := 0; index < len(*actionContent); index++ {
+		command := (*actionContent)[index].Command
 
 		re := regexp.MustCompile(`\$\{([^}]+)\}`)
 		match := re.FindAllStringSubmatch(command, -1)
@@ -146,48 +167,48 @@ func extractArguments(reactionCommands *[]ReactionCommand) []string {
   appendIfMissing
 */
 func appendIfMissing(data []string, i string) []string {
-  for _, element := range data {
-    if element == i {
-      return data
-    }
-  }
+	for _, element := range data {
+		if element == i {
+			return data
+		}
+	}
 
-  return append(data, i)
+	return append(data, i)
 }
 
 /*
-  processReactions
+  processActions
 */
-func processReactions(config *Config, reaction *string) {
-	for index := 0; index < len(config.Reactions); index++ {
-		if *reaction == config.Reactions[index].Name {
-			processReaction(&config.Reactions[index])
+func processActions(config *Config, action *string) {
+	for index := 0; index < len(config.Actions); index++ {
+		if *action == config.Actions[index].Name {
+			processAction(&config.Actions[index])
 		}
 	}
 }
 
 /*
-  processReaction
-  Takes a Reaction as a parameter
+  processAction
+  Takes a Action as a parameter
 */
-func processReaction(reaction *Reaction) {
-	text(fmt.Sprintf("executing: %s", reaction.Name), color.FgGreen)
+func processAction(action *Action) {
+	text(fmt.Sprintf("executing: %s", action.Name), color.FgGreen)
 
-	for j := 0; j < len(reaction.Content); j++ {
-		processCommand(reaction, j)
+	for j := 0; j < len(action.Content); j++ {
+		processCommand(action, j)
 	}
 }
 
 /*
   processCommand
-  Takes a Reaction as a parameter
+  Takes a Action as a parameter
 */
-func processCommand(reaction *Reaction, index int) {
-	command := reaction.Content[index].Command
+func processCommand(action *Action, index int) {
+	command := action.Content[index].Command
 
-	for j := 0; j < len(reaction.Arguments); j++ {
-		varName := reaction.Arguments[j].Name
-		varValue := reaction.Arguments[j].Flag
+	for j := 0; j < len(action.Arguments); j++ {
+		varName := action.Arguments[j].Name
+		varValue := action.Arguments[j].Flag
 		varToChange := fmt.Sprintf("${%s}", varName)
 
 		command = strings.Replace(command, varToChange, *varValue, -1)
@@ -241,6 +262,7 @@ func Map(vs []string, f func(string, int) string) []string {
   Displays a prefix to all engine related messages
 */
 func prefix() string {
+	// return fmt.Sprintf(os.Args[0])
 	return fmt.Sprintf("monica")
 }
 

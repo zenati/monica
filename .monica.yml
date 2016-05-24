@@ -1,8 +1,24 @@
-engine: monica
-reactions:
-  - name: p
-    desc: Pushing current branch to Github
+actions:
+  - name: commit
+    desc: Commit changes to current branch
     content:
       - command: git add -A
-      - command: git commit -m "${m}"
-      - command: git push origin ${b}
+      - command: git commit -m ${m}
+    default:
+      - m: no-commit-message
+
+  - name: push
+    desc: Pushing current branch to Github
+    content:
+      - action: commit
+      - command: git push ${r} ${b}
+    default:
+      - r: origin
+      - b: master
+
+  - name: compile # Default `pv` value is not set, `pv` is then mandatory
+    desc: Compiling latest version for all plateforms
+    content:
+      - command: goxc -d=${dist} -pv=${pv}
+    default:
+      - dist: dist
