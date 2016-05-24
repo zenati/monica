@@ -78,26 +78,31 @@ $ rm -rf dist/debian-tmp
 
 <p>What we also need here is to be able to change the <code>branch</code>, <code>commit message</code>, <code>pv</code> and <code>debian</code> using command line arguments.</p>
 
-<p>Here is what defining <code>reactions</code> in the <code>.monica.yml</code> file would look like:</p>
+<p>Here is what defining <code>actions</code> in the <code>.monica.yml</code> file would look like:</p>
 
-<div class="highlight highlight-source-yaml"><pre><span class="pl-s"><span class="pl-ent">engine:</span> <span class="pl-s">monica</span></span>
-<span class="pl-s"><span class="pl-ent">reactions:</span></span>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-s"><span class="pl-ent">actions:</span></span>
   <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">push</span></span>
     <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Pushing current branch to Github</span></span>
     <span class="pl-s"><span class="pl-ent">content:</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rake assets:clobber assets:precompile</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git add -A</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git commit -m '${m}'</span></span>
-      <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git push origin ${b}</span></span>
+      <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git push ${r} ${b}</span></span>
+    <span class="pl-s"><span class="pl-ent">default:</span></span>
+      <span class="pl-s">- <span class="pl-ent">m:</span> <span class="pl-s">no-commit-message</span></span>
+      <span class="pl-s">- <span class="pl-ent">r:</span> <span class="pl-s">origin</span></span>
+      <span class="pl-s">- <span class="pl-ent">b:</span> <span class="pl-s">master</span></span>
 
   <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">c </span></span><span class="pl-c">#short for compile</span>
     <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Compiling latest version for all plateforms</span></span>
     <span class="pl-s"><span class="pl-ent">content:</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">goxc -d=dist -pv=${pv}</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">touch src/var/${a}/file</span></span>
-      <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rm -rf dist/${a}-tmp</span></span></pre></div>
+      <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rm -rf dist/${a}-tmp</span></span>
+    <span class="pl-s"><span class="pl-ent">default:</span></span>
+      <span class="pl-s">- <span class="pl-ent">a:</span> <span class="pl-s">debian</span></span></pre></div>
 
-<p>The config file should be placed inside the directory in which you want to run these commands be detected and parsed by <code>monica</code>. If you use the curl command above to install <code>monica</code>, the executable will be named <code>m</code>. Once done, you can call the following command :</p>
+<p>The config file should be placed inside the directory in which you want to run these commands to be detected and parsed by <code>monica</code>. If you use the curl command above to install <code>monica</code>, the executable will be named <code>m</code>. Once done, you can call the following command :</p>
 
 <pre><code>m push -b master -m "commit message"
 </code></pre>
