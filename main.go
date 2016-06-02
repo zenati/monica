@@ -245,7 +245,7 @@ func executeCommand(command string, args ...string) {
 }
 
 func printOutput(std bytes.Buffer) {
-	if (std.String() != "") {
+	if std.String() != "" {
 		fmt.Print(std.String())
 	}
 }
