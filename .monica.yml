@@ -2,6 +2,7 @@ actions:
   - name: push
     desc: Commit changes to current branch
     content:
+      - command: go build main.go
       - command: git add -A
       - command: git commit -m ${m}
       - command: git push ${r} ${b}
