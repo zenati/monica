@@ -239,6 +239,6 @@ func executeCommand(command string, args ...string) {
 		fmt.Println(stderr.String())
 		os.Exit(0)
 	} else if (stdout.String() != "") {
-		fmt.Println(stdout.String())
+		fmt.Print(stdout.String())
 	}
 }
