@@ -236,10 +236,22 @@ func executeCommand(command string, args ...string) {
 	cmd.Stderr = &stderr
 
 	if err := cmd.Run(); err != nil {
-		fmt.Print(stderr.String())
-		fmt.Print(stdout.String())
+		if (stdout.String() != "") {
+			fmt.Print(stdout.String())
+		}
+
+		if (stderr.String() != "") {
+			fmt.Print(stderr.String())
+		}
+
 		os.Exit(1)
-	} else if (stdout.String() != "") {
-		fmt.Print(stdout.String())
+	} else {
+		if (stdout.String() != "") {
+			fmt.Print(stdout.String())
+		}
+
+		if (stderr.String() != "") {
+			fmt.Print(stderr.String())
+		}
 	}
 }
