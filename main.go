@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/fatih/color"
 	"gopkg.in/alecthomas/kingpin.v2"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -68,7 +67,7 @@ func main() {
 	kingpin.CommandLine.HelpFlag.Short('h')
 
 	processConfig(&config)
-	kingpin.Version("0.0.1")
+	kingpin.Version("0.1")
 
 	chosenAction := kingpin.Parse()
 	processActions(&config, &chosenAction)
@@ -85,12 +84,12 @@ func unmarshalConfig() Config {
 	content, err := ioutil.ReadFile(".monica.yml")
 
 	if err != nil {
-		text("File .monica.yml not detected.", color.FgRed)
+		fmt.Println("File .monica.yml not detected.")
 		os.Exit(0)
 	}
 
 	if err := yaml.Unmarshal(content, &config); err != nil {
-		text(err.Error(), color.FgRed)
+		fmt.Println(err.Error())
 		os.Exit(0)
 	}
 
@@ -193,7 +192,7 @@ func processActions(config *Config, action *string) {
   Takes a Action as a parameter
 */
 func processAction(action *Action) {
-	text(fmt.Sprintf("executing: %s", action.Name), color.FgGreen)
+	fmt.Printf("executing: %s\n", action.Name)
 
 	for j := 0; j < len(action.Content); j++ {
 		processCommand(action, j)
@@ -215,8 +214,7 @@ func processCommand(action *Action, index int) {
 		command = strings.Replace(command, varToChange, *varValue, -1)
 	}
 
-	coloredContent := fmt.Sprintf("\t-> %s", command)
-	text(coloredContent, color.FgGreen)
+	fmt.Printf("-> %s\n", command)
 
 	executableCommand := strings.Split(command, " ")
 	executeCommand(executableCommand[0], executableCommand[1:]...)
@@ -231,67 +229,16 @@ func processCommand(action *Action, index int) {
 func executeCommand(command string, args ...string) {
 	cmd := exec.Command(command, args...)
 
-	var out bytes.Buffer
+	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 
-	cmd.Stdout = &out
+	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
 	if err := cmd.Run(); err != nil {
-		text(stderr.String(), color.FgRed)
+		fmt.Println(stderr.String())
 		os.Exit(0)
-	}
-}
-
-/*
-  Map
-  Returns a new slice containing the results of applying the function f
-  to each string in the original slice.
-*/
-func Map(vs []string, f func(string, int) string) []string {
-	vsm := make([]string, len(vs))
-
-	for i, v := range vs {
-		vsm[i] = f(v, i)
-	}
-
-	return vsm
-}
-
-/*
-  prefix
-  Displays a prefix to all engine related messages
-*/
-func prefix() string {
-	return fmt.Sprintf(os.Args[0])
-	// return fmt.Sprintf("monica")
-}
-
-/*
-  text
-  Displays a message on the screen using a particular color
-*/
-func text(content string, attribute color.Attribute, returnOperator ...bool) {
-	returnLine := true
-	var printfContent string
-
-	if len(returnOperator) > 0 {
-		returnLine = returnOperator[0]
-	}
-
-	if returnLine {
-		printfContent = "%s %s\n"
 	} else {
-		printfContent = "\r%s %s"
+		fmt.Println(stdout.String())
 	}
-
-	fmt.Printf(printfContent, colored(prefix(), attribute), content)
-}
-
-/*
-  colored
-  Displays a message on the screen using a particular color
-*/
-func colored(text string, attribute color.Attribute) string {
-	return color.New(attribute).SprintFunc()(text)
 }

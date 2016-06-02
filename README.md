@@ -3,7 +3,7 @@
 
 ### Installation for OSX—amd64
 ```
-sudo curl -sSo /usr/bin/m https://raw.githubusercontent.com/zenati/monica/master/main && sudo chmod 777 /usr/bin/m
+sudo curl -sSo /usr/bin/monica https://raw.githubusercontent.com/zenati/monica/master/main && sudo chmod 777 /usr/bin/monica
 ```
 
 ### Manual download
@@ -77,7 +77,7 @@ actions:
       - a: debian
 ```
 
-The config file should be placed inside the directory in which you want to run these commands to be detected and parsed by `monica`. If you use the curl command above to install `monica`, the executable will be named `m`. Once done, you can call the following command :
+The config file should be placed inside the directory in which you want to run these commands to be detected and parsed by `monica`. If you use the curl command above to install `monica`, the executable will be named `monica`. Once done, you can call the following command :
 
 ```
 m push -b master -m "commit message"
@@ -92,11 +92,11 @@ m c -pv 16.32 -a debian
 And here is the output for the `push` reaction:
 ```
 computer:dir zenati$ m push -b master -m "commit message"
-monica executing: push
-monica 	-> rake assets:clobber assets:precompile
-monica 	-> git add -A
-monica 	-> git commit -m '...'
-monica 	-> git push origin master
+executing: push
+-> rake assets:clobber assets:precompile
+-> git add -A
+-> git commit -m '...'
+-> git push origin master
 ```
 
 ## Dynamic arguments
