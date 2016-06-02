@@ -234,14 +234,13 @@ func executeCommand(command string, args ...string) {
 
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
+	err := cmd.Run()
 
-	if err := cmd.Run(); err != nil {
-		printOutput(stderr)
-		printOutput(stdout)
+	printOutput(stderr)
+	printOutput(stdout)
+
+	if err != nil {
 		os.Exit(1)
-	} else {
-		printOutput(stderr)
-		printOutput(stdout)
 	}
 }
 
