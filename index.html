@@ -27,7 +27,7 @@
 <h3>
 <a id="installation-for-osxamd64" class="anchor" href="#installation-for-osxamd64" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation for OSX—amd64</h3>
 
-<pre><code>sudo curl -sSo /usr/bin/m https://raw.githubusercontent.com/zenati/monica/master/main &amp;&amp; sudo chmod 777 /usr/bin/m
+<pre><code>sudo curl -sSo /usr/bin/monica https://raw.githubusercontent.com/zenati/monica/master/main &amp;&amp; sudo chmod 777 /usr/bin/monica
 </code></pre>
 
 <h3>
@@ -102,7 +102,7 @@ $ rm -rf dist/debian-tmp
     <span class="pl-s"><span class="pl-ent">default:</span></span>
       <span class="pl-s">- <span class="pl-ent">a:</span> <span class="pl-s">debian</span></span></pre></div>
 
-<p>The config file should be placed inside the directory in which you want to run these commands to be detected and parsed by <code>monica</code>. If you use the curl command above to install <code>monica</code>, the executable will be named <code>m</code>. Once done, you can call the following command :</p>
+<p>The config file should be placed inside the directory in which you want to run these commands to be detected and parsed by <code>monica</code>. If you use the curl command above to install <code>monica</code>, the executable will be named <code>monica</code>. Once done, you can call the following command :</p>
 
 <pre><code>m push -b master -m "commit message"
 </code></pre>
@@ -115,11 +115,11 @@ $ rm -rf dist/debian-tmp
 <p>And here is the output for the <code>push</code> reaction:</p>
 
 <pre><code>computer:dir zenati$ m push -b master -m "commit message"
-monica executing: push
-monica  -&gt; rake assets:clobber assets:precompile
-monica  -&gt; git add -A
-monica  -&gt; git commit -m '...'
-monica  -&gt; git push origin master
+executing: push
+-&gt; rake assets:clobber assets:precompile
+-&gt; git add -A
+-&gt; git commit -m '...'
+-&gt; git push origin master
 </code></pre>
 
 <h2>
