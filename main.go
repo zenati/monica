@@ -237,6 +237,7 @@ func executeCommand(command string, args ...string) {
 
 	if err := cmd.Run(); err != nil {
 		fmt.Println(stderr.String())
+		os.Exit(1)
 	} else if (stdout.String() != "") {
 		fmt.Print(stdout.String())
 	}
