@@ -236,22 +236,17 @@ func executeCommand(command string, args ...string) {
 	cmd.Stderr = &stderr
 
 	if err := cmd.Run(); err != nil {
-		if (stdout.String() != "") {
-			fmt.Print(stdout.String())
-		}
-
-		if (stderr.String() != "") {
-			fmt.Print(stderr.String())
-		}
-
+		printOutput(stderr)
+		printOutput(stdout)
 		os.Exit(1)
 	} else {
-		if (stdout.String() != "") {
-			fmt.Print(stdout.String())
-		}
+		printOutput(stderr)
+		printOutput(stdout)
+	}
+}
 
-		if (stderr.String() != "") {
-			fmt.Print(stderr.String())
-		}
+func printOutput(std bytes.Buffer) {
+	if (std.String() != "") {
+		fmt.Print(std.String())
 	}
 }
