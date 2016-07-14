@@ -1,12 +1,7 @@
 ## Monica
 [Monica](https://www.youtube.com/watch?v=OY1xxhlq4RU) is a [Go](https://golang.org) project that helps avoid repeating commands by defining a structured `.monica.yml` config file. Monica dynamically generates needed arguments and validates them.
 
-### Installation for OSX—amd64
-```
-sudo curl -sSo /usr/bin/monica https://raw.githubusercontent.com/zenati/monica/master/main && sudo chmod 777 /usr/bin/monica
-```
-
-### Manual download
+### Installation
 Every new Monica version is released using Github Releases and the latest release download links are available here:
 ```
 https://github.com/zenati/monica/releases/latest
