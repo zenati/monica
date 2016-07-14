@@ -106,7 +106,7 @@ $ rm -rf dist/debian-tmp
 
 <div class="highlight highlight-source-yaml"><pre><span class="pl-s"><span class="pl-ent">actions:</span></span>
   <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">push</span></span>
-    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Pushing current branch to Github</span></span>
+    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">pushing current branch to Github</span></span>
     <span class="pl-s"><span class="pl-ent">content:</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rake assets:clobber assets:precompile</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git add -A</span></span>
@@ -118,7 +118,7 @@ $ rm -rf dist/debian-tmp
       <span class="pl-s">- <span class="pl-ent">b:</span> <span class="pl-s">master</span></span>
 
   <span class="pl-s">- <span class="pl-ent">name:</span> <span class="pl-s">c </span></span><span class="pl-c">#short for compile</span>
-    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">Compiling latest version for all plateforms</span></span>
+    <span class="pl-s"><span class="pl-ent">desc:</span> <span class="pl-s">compiling latest version for all plateforms</span></span>
     <span class="pl-s"><span class="pl-ent">content:</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">goxc -d=dist -pv=${pv}</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">touch src/var/${a}/file</span></span>
@@ -139,11 +139,15 @@ $ rm -rf dist/debian-tmp
 <p>And here is the output for the <code>push</code> reaction:</p>
 
 <pre><code>computer:dir zenati$ m push -b master -m "commit message"
-executing: push
+-&gt; executing: pushing current branch to Github (push)
 -&gt; rake assets:clobber assets:precompile
 -&gt; git add -A
--&gt; git commit -m '...'
+-&gt; git commit -m "assets precompile"
+[master 31bcf21] Removed colors
+ 2 files changed, 9 insertions(+), 29 deletions(-)
 -&gt; git push origin master
+To git@github.com:zenati/example.git
+   d70f01f..31bcf21  master -&gt; master
 </code></pre>
 
 <h2>
@@ -165,10 +169,10 @@ Commands:
     Show help.
 
   push -m=M -b=B
-    Pushing current branch to Github
+    pushing current branch to Github
 
   c --pv=PV -a=A
-    Compiling latest version for all plateforms
+    compiling latest version for all plateforms
 </code></pre>
 
 <h2>
