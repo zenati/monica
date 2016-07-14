@@ -25,13 +25,7 @@
 <p><a href="https://www.youtube.com/watch?v=OY1xxhlq4RU">Monica</a> is a <a href="https://golang.org">Go</a> project that helps avoid repeating commands by defining a structured <code>.monica.yml</code> config file. Monica dynamically generates needed arguments and validates them.</p>
 
 <h3>
-<a id="installation-for-osxamd64" class="anchor" href="#installation-for-osxamd64" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation for OSX—amd64</h3>
-
-<pre><code>sudo curl -sSo /usr/bin/monica https://raw.githubusercontent.com/zenati/monica/master/main &amp;&amp; sudo chmod 777 /usr/bin/monica
-</code></pre>
-
-<h3>
-<a id="manual-download" class="anchor" href="#manual-download" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Manual download</h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
 
 <p>Every new Monica version is released using Github Releases and the latest release download links are available here:</p>
 
@@ -42,50 +36,50 @@
 
 <pre><code>### Darwin (Apple Mac)
 
- * [monica\_0.1\_darwin\_386.zip](monica_0.1_darwin_386.zip)
- * [monica\_0.1\_darwin\_amd64.zip](monica_0.1_darwin_amd64.zip)
+ * monica_0.1_darwin_386.zip
+ * monica_0.1_darwin_amd64.zip
 
 ### FreeBSD
 
- * [monica\_0.1\_freebsd\_386.zip](monica_0.1_freebsd_386.zip)
- * [monica\_0.1\_freebsd\_amd64.zip](monica_0.1_freebsd_amd64.zip)
- * [monica\_0.1\_freebsd\_arm.zip](monica_0.1_freebsd_arm.zip)
+ * monica_0.1_freebsd_386.zip
+ * monica_0.1_freebsd_amd64.zip
+ * monica_0.1_freebsd_arm.zip
 
 ### Linux
 
- * [monica\_0.1\_amd64.deb](monica_0.1_amd64.deb)
- * [monica\_0.1\_armhf.deb](monica_0.1_armhf.deb)
- * [monica\_0.1\_i386.deb](monica_0.1_i386.deb)
- * [monica\_0.1\_linux\_386.tar.gz](monica_0.1_linux_386.tar.gz)
- * [monica\_0.1\_linux\_amd64.tar.gz](monica_0.1_linux_amd64.tar.gz)
- * [monica\_0.1\_linux\_arm.tar.gz](monica_0.1_linux_arm.tar.gz)
+ * monica_0.1_amd64.deb
+ * monica_0.1_armhf.deb
+ * monica_0.1_i386.deb
+ * monica_0.1_linux_386.tar.gz
+ * monica_0.1_linux_amd64.tar.gz
+ * monica_0.1_linux_arm.tar.gz
 
 ### MS Windows
 
- * [monica\_0.1\_windows\_386.zip](monica_0.1_windows_386.zip)
- * [monica\_0.1\_windows\_amd64.zip](monica_0.1_windows_amd64.zip)
+ * monica_0.1_windows_386.zip
+ * monica_0.1_windows_amd64.zip
 
 ### NetBSD
 
- * [monica\_0.1\_netbsd\_386.zip](monica_0.1_netbsd_386.zip)
- * [monica\_0.1\_netbsd\_amd64.zip](monica_0.1_netbsd_amd64.zip)
- * [monica\_0.1\_netbsd\_arm.zip](monica_0.1_netbsd_arm.zip)
+ * monica_0.1_netbsd_386.zip
+ * monica_0.1_netbsd_amd64.zip
+ * monica_0.1_netbsd_arm.zip
 
 ### OpenBSD
 
- * [monica\_0.1\_openbsd\_386.zip](monica_0.1_openbsd_386.zip)
- * [monica\_0.1\_openbsd\_amd64.zip](monica_0.1_openbsd_amd64.zip)
+ * monica_0.1_openbsd_386.zip
+ * monica_0.1_openbsd_amd64.zip
 
 ### Other files
 
- * [control.tar.gz](.goxc-temp/control.tar.gz)
- * [data.tar.gz](.goxc-temp/data.tar.gz)
- * [LICENSE.md](LICENSE.md)
- * [README.md](README.md)
+ * .goxc-temp/control.tar.gz
+ * .goxc-temp/data.tar.gz
+ * LICENSE.md
+ * README.md
 
 ### Plan 9
 
- * [monica\_0.1\_plan9\_386.zip](monica_0.1_plan9_386.zip)
+ * monica_0.1_plan9_386.zip
 </code></pre>
 
 <h3>
@@ -116,7 +110,7 @@ $ rm -rf dist/debian-tmp
     <span class="pl-s"><span class="pl-ent">content:</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">rake assets:clobber assets:precompile</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git add -A</span></span>
-      <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git commit -m '${m}'</span></span>
+      <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git commit -m "${m}"</span></span>
       <span class="pl-s">- <span class="pl-ent">command:</span> <span class="pl-s">git push ${r} ${b}</span></span>
     <span class="pl-s"><span class="pl-ent">default:</span></span>
       <span class="pl-s">- <span class="pl-ent">m:</span> <span class="pl-s">no-commit-message</span></span>
@@ -134,12 +128,12 @@ $ rm -rf dist/debian-tmp
 
 <p>The config file should be placed inside the directory in which you want to run these commands to be detected and parsed by <code>monica</code>. If you use the curl command above to install <code>monica</code>, the executable will be named <code>monica</code>. Once done, you can call the following command :</p>
 
-<pre><code>monica push --b master --m "commit message"
+<pre><code>monica push -b master -m "commit message"
 </code></pre>
 
 <p>Or to use the Goxc example with <code>pv=16.32</code> and <code>a=debian</code>:</p>
 
-<pre><code>monica c --pv 16.32 --a debian
+<pre><code>monica c --pv 16.32 -a debian
 </code></pre>
 
 <p>And here is the output for the <code>push</code> reaction:</p>
@@ -158,8 +152,8 @@ executing: push
 <p><code>Monica</code> detects the config file and dynamically creates the needed mandatory options.
 Here is an example of <code>m --help</code> output for the example above:</p>
 
-<pre><code>computer:dir zenati$ m --help
-usage: m [&lt;flags&gt;] &lt;command&gt; [&lt;args&gt; ...]
+<pre><code>computer:dir zenati$ monica --help
+usage: monica [&lt;flags&gt;] &lt;command&gt; [&lt;args&gt; ...]
 
 Flags:
   -h, --help     Show context-sensitive help (also try --help-long and --help-man).
@@ -170,10 +164,10 @@ Commands:
   help [&lt;command&gt;...]
     Show help.
 
-  push --m=M --b=B
+  push -m=M -b=B
     Pushing current branch to Github
 
-  c --pv=PV --a=A
+  c --pv=PV -a=A
     Compiling latest version for all plateforms
 </code></pre>
 
