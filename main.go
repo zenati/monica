@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"gopkg.in/alecthomas/kingpin.v2"
 	"gopkg.in/yaml.v2"
-  "github.com/ttacon/chalk"
 	"io/ioutil"
 	"os"
 	"os/exec"
-  "time"
 	"regexp"
 	"strings"
 )
@@ -64,7 +62,6 @@ type ActionContent struct {
 }
 
 func main() {
-  successText(fmt.Sprintf("-> Started @ %s\n", time.Now()))
 	config := unmarshalConfig()
 	kingpin.Flag("debug", "Enable debug mode.").Bool()
 	kingpin.CommandLine.HelpFlag.Short('h')
@@ -96,7 +93,6 @@ func unmarshalConfig() Config {
 		os.Exit(0)
 	}
 
-  successText(fmt.Sprintf("-> File .monica.yml detected and parsed\n"))
 	return config
 }
 
@@ -184,8 +180,6 @@ func appendIfMissing(data []string, i string) []string {
   processActions
 */
 func processActions(config *Config, action *string) {
-  successText(fmt.Sprintf("-> Processing %d actions\n", len(config.Actions)))
-
   for index := 0; index < len(config.Actions); index++ {
 		if *action == config.Actions[index].Name {
 			processAction(&config.Actions[index])
@@ -198,28 +192,10 @@ func processActions(config *Config, action *string) {
   Takes a Action as a parameter
 */
 func processAction(action *Action) {
-  successText(fmt.Sprintf("-> Action: %s (%s)\n", action.Desc, action.Name))
+  fmt.Printf("-> executing: %s (%s)\n", action.Desc, action.Name)
 	for j := 0; j < len(action.Content); j++ {
 		processCommand(action, j)
 	}
-
-  successText(fmt.Sprintf("-> Done @ %s\n", time.Now()))
-}
-
-/*
-  successText
-  Prints a colored text
-*/
-func successText(text string) {
-  fmt.Print(chalk.Green.Color(text))
-}
-
-/*
-  warningText
-  Prints a colored text
-*/
-func warningText(text string) {
-  fmt.Print(chalk.Green.Color(text))
 }
 
 /*
@@ -237,7 +213,7 @@ func processCommand(action *Action, index int) {
 		command = strings.Replace(command, varToChange, *varValue, -1)
 	}
 
-  successText(fmt.Sprintf("-> Running: %s\n", command))
+  fmt.Printf("-> %s\n", command)
 	executeCommand("sh", "-c", command)
 }
 

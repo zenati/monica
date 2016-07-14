@@ -117,11 +117,15 @@ monica c --pv 16.32 -a debian
 And here is the output for the `push` reaction:
 ```
 computer:dir zenati$ m push -b master -m "commit message"
-executing: push
--> rake assets:clobber assets:precompile
+-> executing: commit & push changes to current branch (push)
 -> git add -A
--> git commit -m '...'
+-> git commit -m "Cleaned plateforms in readme"
+[master d70f01f] Cleaned plateforms in readme
+ 1 file changed, 23 insertions(+), 23 deletions(-)
 -> git push origin master
+To git@github.com:zenati/monica.git
+   6637999..d70f01f  master -> master
+-> Done @ 2016-07-14 15:42:44.614162221 +0200 CEST
 ```
 
 ## Dynamic arguments
