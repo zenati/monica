@@ -11,50 +11,50 @@ Here are all available plateforms:
 ```
 ### Darwin (Apple Mac)
 
- * [monica\_0.1\_darwin\_386.zip](monica_0.1_darwin_386.zip)
- * [monica\_0.1\_darwin\_amd64.zip](monica_0.1_darwin_amd64.zip)
+ * monica_0.1_darwin_386.zip
+ * monica_0.1_darwin_amd64.zip
 
 ### FreeBSD
 
- * [monica\_0.1\_freebsd\_386.zip](monica_0.1_freebsd_386.zip)
- * [monica\_0.1\_freebsd\_amd64.zip](monica_0.1_freebsd_amd64.zip)
- * [monica\_0.1\_freebsd\_arm.zip](monica_0.1_freebsd_arm.zip)
+ * monica_0.1_freebsd_386.zip
+ * monica_0.1_freebsd_amd64.zip
+ * monica_0.1_freebsd_arm.zip
 
 ### Linux
 
- * [monica\_0.1\_amd64.deb](monica_0.1_amd64.deb)
- * [monica\_0.1\_armhf.deb](monica_0.1_armhf.deb)
- * [monica\_0.1\_i386.deb](monica_0.1_i386.deb)
- * [monica\_0.1\_linux\_386.tar.gz](monica_0.1_linux_386.tar.gz)
- * [monica\_0.1\_linux\_amd64.tar.gz](monica_0.1_linux_amd64.tar.gz)
- * [monica\_0.1\_linux\_arm.tar.gz](monica_0.1_linux_arm.tar.gz)
+ * monica_0.1_amd64.deb
+ * monica_0.1_armhf.deb
+ * monica_0.1_i386.deb
+ * monica_0.1_linux_386.tar.gz
+ * monica_0.1_linux_amd64.tar.gz
+ * monica_0.1_linux_arm.tar.gz
 
 ### MS Windows
 
- * [monica\_0.1\_windows\_386.zip](monica_0.1_windows_386.zip)
- * [monica\_0.1\_windows\_amd64.zip](monica_0.1_windows_amd64.zip)
+ * monica_0.1_windows_386.zip
+ * monica_0.1_windows_amd64.zip
 
 ### NetBSD
 
- * [monica\_0.1\_netbsd\_386.zip](monica_0.1_netbsd_386.zip)
- * [monica\_0.1\_netbsd\_amd64.zip](monica_0.1_netbsd_amd64.zip)
- * [monica\_0.1\_netbsd\_arm.zip](monica_0.1_netbsd_arm.zip)
+ * monica_0.1_netbsd_386.zip
+ * monica_0.1_netbsd_amd64.zip
+ * monica_0.1_netbsd_arm.zip
 
 ### OpenBSD
 
- * [monica\_0.1\_openbsd\_386.zip](monica_0.1_openbsd_386.zip)
- * [monica\_0.1\_openbsd\_amd64.zip](monica_0.1_openbsd_amd64.zip)
+ * monica_0.1_openbsd_386.zip
+ * monica_0.1_openbsd_amd64.zip
 
 ### Other files
 
- * [control.tar.gz](.goxc-temp/control.tar.gz)
- * [data.tar.gz](.goxc-temp/data.tar.gz)
- * [LICENSE.md](LICENSE.md)
- * [README.md](README.md)
+ * .goxc-temp/control.tar.gz
+ * .goxc-temp/data.tar.gz
+ * LICENSE.md
+ * README.md
 
 ### Plan 9
 
- * [monica\_0.1\_plan9\_386.zip](monica_0.1_plan9_386.zip)
+ * monica_0.1_plan9_386.zip
 ```
 
 ### Example of use
