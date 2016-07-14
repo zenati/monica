@@ -81,7 +81,7 @@ Here is what defining `actions` in the `.monica.yml` file would look like:
 ```yaml
 actions:
   - name: push
-    desc: Pushing current branch to Github
+    desc: pushing current branch to Github
     content:
       - command: rake assets:clobber assets:precompile
       - command: git add -A
@@ -93,7 +93,7 @@ actions:
       - b: master
 
   - name: c #short for compile
-    desc: Compiling latest version for all plateforms
+    desc: compiling latest version for all plateforms
     content:
       - command: goxc -d=dist -pv=${pv}
       - command: touch src/var/${a}/file
@@ -117,15 +117,15 @@ monica c --pv 16.32 -a debian
 And here is the output for the `push` reaction:
 ```
 computer:dir zenati$ m push -b master -m "commit message"
--> executing: commit & push changes to current branch (push)
+-> executing: pushing current branch to Github (push)
+-> rake assets:clobber assets:precompile
 -> git add -A
--> git commit -m "Cleaned plateforms in readme"
-[master d70f01f] Cleaned plateforms in readme
- 1 file changed, 23 insertions(+), 23 deletions(-)
+-> git commit -m "assets precompile"
+[master 31bcf21] Removed colors
+ 2 files changed, 9 insertions(+), 29 deletions(-)
 -> git push origin master
-To git@github.com:zenati/monica.git
-   6637999..d70f01f  master -> master
--> Done @ 2016-07-14 15:42:44.614162221 +0200 CEST
+To git@github.com:zenati/example.git
+   d70f01f..31bcf21  master -> master
 ```
 
 ## Dynamic arguments
@@ -145,10 +145,10 @@ Commands:
     Show help.
 
   push -m=M -b=B
-    Pushing current branch to Github
+    pushing current branch to Github
 
   c --pv=PV -a=A
-    Compiling latest version for all plateforms
+    compiling latest version for all plateforms
 ```
 
 ## License
