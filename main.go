@@ -67,7 +67,7 @@ func main() {
 	kingpin.CommandLine.HelpFlag.Short('h')
 
 	processConfig(&config)
-	kingpin.Version("0.1")
+	kingpin.Version("0.2.1")
 
 	chosenAction := kingpin.Parse()
 	processActions(&config, &chosenAction)
