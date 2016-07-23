@@ -110,7 +110,7 @@ func processConfig(config *Config) {
 		cmdFlags := kingpin.Command(action.Name, action.Desc)
 
 		argsList := extractArguments(config, &action.Content)
-		defsList := extractDefaults(&action.Default)
+		defsList := extractDefaults(config, action)
 
 		for j := 0; j < len(argsList); j++ {
 			if defs, exists := defsList[argsList[j]]; exists {
@@ -122,7 +122,6 @@ func processConfig(config *Config) {
 			argument := ActionArgument{}
 			argument.Name = argsList[j]
 			argument.Flag = cmdFlag
-
 			action.Arguments = append(action.Arguments, argument)
 		}
 	}
@@ -131,14 +130,30 @@ func processConfig(config *Config) {
 /*
 	extractDefaults
 */
-func extractDefaults(actionDefault *[]map[string]string) map[string]string {
+func extractDefaults(config *Config, action *Action) map[string]string {
 	defaults := map[string]string{}
 
-	for _, mapData := range *actionDefault {
+	for _, mapData := range action.Default {
 		for key, value := range mapData {
 			defaults[key] = value
 		}
 	}
+
+  for index := 0; index < len(action.Content); index++ {
+    action_name := action.Content[index].Action
+
+    if action_name != "" {
+      for i := 0; i < len(config.Actions); i++ {
+        if config.Actions[i].Name == action_name {
+          action_defaults := extractDefaults(config, &config.Actions[i])
+
+          for key, value := range action_defaults {
+            defaults[key] = value
+          }
+        }
+      }
+    }
+  }
 
 	return defaults
 }
@@ -176,6 +191,7 @@ func extractArguments(config *Config, actionContent *[]ActionContent) []string {
 
 /*
   appendIfMissing
+
 */
 func appendIfMissing(data []string, i string) []string {
 	for _, element := range data {
