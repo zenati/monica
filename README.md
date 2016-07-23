@@ -116,7 +116,7 @@ monica c --pv 16.32 -a debian
 
 And here is the output for the `push` reaction:
 ```
-computer:dir zenati$ m push -b master -m "commit message"
+computer:dir zenati$ m push -m "assets precompile"
 -> executing: pushing current branch to Github (push)
 -> rake assets:clobber assets:precompile
 -> git add -A
