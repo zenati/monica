@@ -67,7 +67,7 @@ func main() {
 	kingpin.CommandLine.HelpFlag.Short('h')
 
 	processConfig(&config)
-	kingpin.Version("0.2.1")
+	kingpin.Version("0.2.2")
 
 	chosenAction := kingpin.Parse()
 	processActions(&config, &chosenAction)
@@ -109,7 +109,7 @@ func processConfig(config *Config) {
 		action := &config.Actions[i]
 		cmdFlags := kingpin.Command(action.Name, action.Desc)
 
-		argsList := extractArguments(&action.Content)
+		argsList := extractArguments(config, &action.Content)
 		defsList := extractDefaults(&action.Default)
 
 		for j := 0; j < len(argsList); j++ {
@@ -146,18 +146,29 @@ func extractDefaults(actionDefault *[]map[string]string) map[string]string {
 /*
   extractArguments
 */
-func extractArguments(actionContent *[]ActionContent) []string {
+func extractArguments(config *Config, actionContent *[]ActionContent) []string {
 	var arguments []string
 
 	for index := 0; index < len(*actionContent); index++ {
+    action_name := (*actionContent)[index].Action
 		command := (*actionContent)[index].Command
 
-		re := regexp.MustCompile(`\$\{([^}]+)\}`)
-		match := re.FindAllStringSubmatch(command, -1)
+    if action_name != "" {
+      for i := 0; i < len(config.Actions); i++ {
+        if config.Actions[i].Name == action_name {
+          arguments = append(arguments, extractArguments(config, &config.Actions[i].Content)...)
+        }
+      }
+    }
 
-		for j := 0; j < len(match); j++ {
-			arguments = appendIfMissing(arguments, match[j][1])
-		}
+    if command != "" {
+      re := regexp.MustCompile(`\$\{([^}]+)\}`)
+      match := re.FindAllStringSubmatch(command, -1)
+
+      for j := 0; j < len(match); j++ {
+        arguments = appendIfMissing(arguments, match[j][1])
+      }
+    }
 	}
 
 	return arguments
@@ -182,7 +193,7 @@ func appendIfMissing(data []string, i string) []string {
 func processActions(config *Config, action *string) {
   for index := 0; index < len(config.Actions); index++ {
 		if *action == config.Actions[index].Name {
-			processAction(&config.Actions[index])
+			processAction(config, &config.Actions[index], true)
 		}
 	}
 }
@@ -191,10 +202,23 @@ func processActions(config *Config, action *string) {
   processAction
   Takes a Action as a parameter
 */
-func processAction(action *Action) {
-  fmt.Printf("-> executing: %s (%s)\n", action.Desc, action.Name)
-	for j := 0; j < len(action.Content); j++ {
-		processCommand(action, j)
+func processAction(config *Config, action *Action, showText bool) {
+  if showText {
+    fmt.Printf("-> executing: %s (%s)\n", action.Desc, action.Name)
+  }
+
+  for j := 0; j < len(action.Content); j++ {
+    if action.Content[j].Action != "" {
+      for i := 0; i < len(config.Actions); i++ {
+        if config.Actions[i].Name == action.Content[j].Action {
+          processAction(config, &config.Actions[i], false)
+        }
+      }
+    }
+
+    if action.Content[j].Command != "" {
+      processCommand(action, j)
+    }
 	}
 }
 

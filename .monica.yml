@@ -1,8 +1,12 @@
 actions:
-  - name: commit
+  - name: add
     desc: commit changes to current branch
     content:
       - command: git add -A
+
+  - name: commit
+    desc: commit changes to current branch
+    content:
       - command: git commit -m "${m}"
     default:
       - m: no-commit-message
@@ -10,13 +14,13 @@ actions:
   - name: push
     desc: commit & push changes to current branch
     content:
-      - command: git add -A
-      - command: git commit -m "${m}"
+      - action: add
+      - action: commit
       - command: git push ${r} ${b}
     default:
-      - m: no-commit-message
       - r: origin
-      - b: master
+      - m: no-commit-message
+      - b: $(git symbolic-ref --short -q HEAD)
 
   - name: compile
     desc: compiling latest version for all plateforms
