@@ -250,7 +250,6 @@ func processCommand(action *Action, index int) {
 		varValue := action.Arguments[j].Flag
 		varToChange := fmt.Sprintf("${%s}", varName)
 
-  fmt.Printf("-> %s %s\n", varName, *varValue)
 		command = strings.Replace(command, varToChange, *varValue, -1)
 	}
 
